@@ -2,39 +2,60 @@ package com.niit.bocado.daoImpl;
 
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.niit.bocado.dao.CircleDao;
 import com.niit.bocado.model.Circle;
-
+@Repository(value="circleDao")
 public class CircleDaoImpl implements CircleDao {
+	@Autowired  
+    private SessionFactory sessionFactory; 
 
 	@Override
 	public boolean addCircle(Circle circle) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		  boolean status=false;  
+	        try {  
+	            sessionFactory.getCurrentSession().save(circle);  
+	            status=true;  
+	        } catch (Exception e) {  
+	            e.printStackTrace();  
+	        }  
+	        return status;  
+	    }  
+	
 
 	@Override
 	public boolean deleteCircle(String emailId, String circleName) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public List<Circle> getCircleByUSer(String emailId) {
-		// TODO Auto-generated method stub
-		return null;
+		boolean status=false;  
+        try {  
+            sessionFactory.getCurrentSession().delete(emailId,circleName);  
+            status=true;  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        }  
+        return status; 
 	}
 
 	@Override
 	public List<Circle> getAllCircles() {
-		// TODO Auto-generated method stub
-		return null;
+		Session currentSession = sessionFactory.getCurrentSession();  
+        Query<Circle> query=currentSession.createQuery("#", Circle.class);  
+        List<Circle> list=query.getResultList();  
+        return list;  
 	}
 
 	@Override
-	public Circle getCircleByName(String circleName) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Circle> getCircleByUser(String emailId) {
+		return (List<Circle>) sessionFactory.getCurrentSession().get(Circle.class, emailId);
+	}
+
+	@Override
+	public Circle getCircleByName(String CircleName) {
+		return (Circle) sessionFactory.getCurrentSession().get(Circle.class, CircleName);
 	}
 
 }

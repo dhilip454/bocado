@@ -2,7 +2,7 @@ package com.niit.bocado.daoImpl;
 
 import com.niit.bocado.dao.WorkspaceUsersDao;
 
-public class WorkspaceUsersDaoImpl implements WorkspaceUsersDao {
+public class WorkspaceUsersDaoImpl implements WorkspaceUsersDao  {
 
 	@Override
 	public boolean sendInvitation(String companyName, String userEmailId) {
